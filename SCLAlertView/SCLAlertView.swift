@@ -399,8 +399,8 @@ open class SCLAlertView: UIViewController {
             return
         }
 	    
-        let rv = UIApplication.shared.keyWindow! as UIWindow
-        let sz = rv.frame.size
+        let rv = UIWindow.key
+        let sz = rv?.frame.size ?? .zero
         
         // Set background frame
         view.frame.size = sz
@@ -763,10 +763,10 @@ open class SCLAlertView: UIViewController {
         view.alpha = 0
         view.tag = uniqueTag
         view.accessibilityIdentifier = uniqueAccessibilityIdentifier
-        let rv = UIApplication.shared.keyWindow! as UIWindow
-        rv.addSubview(view)
-        view.frame = rv.bounds
-        baseView.frame = rv.bounds
+        let rv = UIWindow.key
+        rv?.addSubview(view)
+        view.frame = rv?.bounds ?? .zero
+        baseView.frame = rv?.bounds ?? .zero
         
         // Alert colour/icon
         var iconImage: UIImage?
@@ -910,9 +910,9 @@ open class SCLAlertView: UIViewController {
     // Show animation in the alert view
     fileprivate func showAnimation(_ animationStyle: SCLAnimationStyle = .topToBottom, animationStartOffset: CGFloat = -400.0, boundingAnimationOffset: CGFloat = 15.0, animationDuration: TimeInterval = 0.2) {
         
-        let rv = UIApplication.shared.keyWindow! as UIWindow
+        let rv = UIWindow.key
         var animationStartOrigin = self.baseView.frame.origin
-        var animationCenter : CGPoint = rv.center
+        var animationCenter : CGPoint = rv?.center ?? .zero
         
         switch animationStyle {
 
@@ -943,7 +943,7 @@ open class SCLAlertView: UIViewController {
             UIView.animate(withDuration: animationDuration, animations: { 
                 self.view.alpha = 1.0
             })
-            self.animate(item: self.baseView, center: rv.center)
+            self.animate(item: self.baseView, center: rv?.center ?? .zero)
         } else {
             UIView.animate(withDuration: animationDuration, animations: {
                 self.view.alpha = 1.0
@@ -951,7 +951,7 @@ open class SCLAlertView: UIViewController {
                 }, completion: { finished in
                     UIView.animate(withDuration: animationDuration, animations: {
                         self.view.alpha = 1.0
-                        self.baseView.center = rv.center
+                        self.baseView.center = rv?.center ?? .zero
                     })
             })
         }
@@ -1039,7 +1039,7 @@ open class SCLAlertView: UIViewController {
     
     //Return true if a SCLAlertView is already being shown, false otherwise
     open func isShowing() -> Bool {
-        if let subviews = UIApplication.shared.keyWindow?.subviews {
+        if let subviews = UIWindow.key?.subviews {
             for view in subviews {
                 if view.tag == uniqueTag && view.accessibilityIdentifier == uniqueAccessibilityIdentifier {
                     return true

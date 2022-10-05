@@ -51,3 +51,16 @@ extension String {
     }
     
 }
+
+extension UIWindow {
+    
+    static var key: UIWindow? {
+        if #available(iOS 13, *) {
+            return (UIApplication.shared.connectedScenes.filter({ $0 is UIWindowScene }).first as? UIWindowScene)?.windows.first
+        }
+        else {
+            return UIApplication.shared.keyWindow
+        }
+    }
+    
+}
